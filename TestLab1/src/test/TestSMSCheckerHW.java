@@ -44,6 +44,13 @@ public class TestSMSCheckerHW {
         assertTrue(SMSChecker.isShortCodeMatch(testSMS2, referenceSMS));
         assertTrue(SMSChecker.isShortCodeMatch(testSMS3, referenceSMS));
         assertTrue(SMSChecker.isShortCodeMatch(testSMS4, referenceSMS));
+        
+        assertEquals("register", (testSMS1.getShortCode()).toLowerCase());
+        assertEquals("register", (testSMS2.getShortCode()).toLowerCase());
+        assertEquals("register", (testSMS3.getShortCode()).toLowerCase());
+        assertEquals("register", (testSMS4.getShortCode()).toLowerCase());
+
+        assertNotNull(testSMS1);
 
         assertFalse(SMSChecker.isShortCodeMatch(testSMS5, referenceSMS));
         assertFalse(SMSChecker.isShortCodeMatch(testSMS6, referenceSMS));
