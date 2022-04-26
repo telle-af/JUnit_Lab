@@ -83,9 +83,11 @@ public class TestSMSCheckerHW {
         SMS testSMS14 = new SMS();
         SMS testSMS15 = new SMS();
         SMS testSMS16 = new SMS();
+        SMS testSMS17 = new SMS();
 
         // correct usage
         testSMS1.setMessage("Marco Valmores, 1973-09-10, Marikina City");
+        testSMS17.setMessage("Marco A. Valmores, 1973-09-10, Marikina City");
         // with unnecessary white spaces
         testSMS2.setMessage("  Marco Valmores  , 1973-09-10,   Marikina City  ");
         //missing spaces
@@ -128,6 +130,7 @@ public class TestSMSCheckerHW {
         assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS14));
         assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS15));
         assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS16));
+        assertTrue(SMSChecker.hasValidPersonalDetailsFormat(testSMS17));
 
 
     }
