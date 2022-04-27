@@ -19,7 +19,10 @@ public class SMSChecker {
 
         //check if both strings are equal
         if (reference_short_code.equals(test_short_code)) {
+            System.out.println("\"" + test_short_code + "\"" + " is valid");
             result = true;
+        } else {
+            System.out.println("\"" + test_short_code + "\"" + " is invalid");
         }
         //return result
         return result;
@@ -40,7 +43,7 @@ public class SMSChecker {
             valid = true;
 
         } catch (DateTimeParseException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             valid = false;
 
         } finally {
@@ -52,38 +55,47 @@ public class SMSChecker {
 
     public static boolean hasValidPersonalDetailsFormat(final SMS sms) {
 
-        String text = sms.getMessage();
         boolean valid = true;
+        String text = sms.getMessage();
         PersonalDetails person = personalDetailsSeparator(text);
+
+        // print out text to see text and see the error message afterwards
+        System.out.println(text);
 
         // if null, return false (may be caused by bad formatting)
         if (person == null) {
+            System.out.println("PersonalDetails object is null. Might be a bad format\n");
             return false;
         }
-
 
         // if it has trailing or leading whitespace, return false
         if (hasLeadingOrTrailingWhitespace(person.getFullName()) ||
                 hasLeadingOrTrailingWhitespace(person.getBirthDate()) ||
                 hasLeadingOrTrailingWhitespace(person.getCity())) {
+
+            System.out.println("Error in format, has leading or trailing whitespace\n");
             return false;
         }
 
         // if date format is invalid, return false
         if (!isValidDateFormat(person.getBirthDate())) {
+            System.out.println("Invalid date format\n");
             return false;
         }
 
         // if there's only one word in the full name
         if (stringArray(person.getFullName()).length <= 1) {
+            System.out.println("There's only one word in full name.\n");
             return false;
         }
 
         // if there's only one word in city and if city doesn't contain the word "city"
-        if(stringArray(person.getCity()).length <= 1 || !person.getCity().toLowerCase().matches("(.*)city")){
+        if (stringArray(person.getCity()).length <= 1 || !person.getCity().toLowerCase().matches("(.*)city")) {
+            System.out.println("There's only one word in city name. Or doesn't contain word \"City\"\n");
             return false;
         }
 
+        System.out.println("Personal Details are valid.\n");
         return valid;
     }
 
@@ -103,7 +115,14 @@ public class SMSChecker {
 
     public static PersonalDetails personalDetailsSeparator(final String details) {
 
-        String[] arrOfStr = details.split(", ", 3);
+        String[] arrOfStr = details.split(", ");
+
+        // check if there are too many commas
+        if (arrOfStr.length > 3) {
+            return null;
+        }
+
+        //arrOfStr = details.split(", ", 3); --> bug found
 
         /*
         for(int index = 0; index < arrOfStr.length; index++){

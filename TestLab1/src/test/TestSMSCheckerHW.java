@@ -4,10 +4,14 @@ import org.junit.Test;
 import sms.SMSChecker;
 import sms.SMS;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class TestSMSCheckerHW {
+
+    public void printBreak(){
+        System.out.println("\nPASSED");
+        System.out.println("===========================================================================");
+    }
 
     @Test
     public void validateRegisterShortCode() {
@@ -15,6 +19,8 @@ public class TestSMSCheckerHW {
         referenceSMS.setShortCode("register");
 
         // assert true
+        System.out.println("assertTrue tests\n");
+
         SMS testSMS1 = new SMS();
         testSMS1.setShortCode("register");
         SMS testSMS2 = new SMS();
@@ -24,7 +30,16 @@ public class TestSMSCheckerHW {
         SMS testSMS4 = new SMS();
         testSMS4.setShortCode("Register");
 
+        assertTrue(SMSChecker.isShortCodeMatch(testSMS1, referenceSMS));
+        assertTrue(SMSChecker.isShortCodeMatch(testSMS2, referenceSMS));
+        assertTrue(SMSChecker.isShortCodeMatch(testSMS3, referenceSMS));
+        assertTrue(SMSChecker.isShortCodeMatch(testSMS4, referenceSMS));
+
+        printBreak();
+
         // assert false
+        System.out.println("assertFalse tests\n");
+
         SMS testSMS5 = new SMS();
         testSMS5.setShortCode(" register");
         SMS testSMS6 = new SMS();
@@ -40,17 +55,6 @@ public class TestSMSCheckerHW {
         SMS testSMS11 = new SMS();
         testSMS11.setShortCode("REG");
 
-        assertTrue(SMSChecker.isShortCodeMatch(testSMS1, referenceSMS));
-        assertTrue(SMSChecker.isShortCodeMatch(testSMS2, referenceSMS));
-        assertTrue(SMSChecker.isShortCodeMatch(testSMS3, referenceSMS));
-        assertTrue(SMSChecker.isShortCodeMatch(testSMS4, referenceSMS));
-        
-        assertEquals("register", (testSMS1.getShortCode()).toLowerCase());
-        assertEquals("register", (testSMS2.getShortCode()).toLowerCase());
-        assertEquals("register", (testSMS3.getShortCode()).toLowerCase());
-        assertEquals("register", (testSMS4.getShortCode()).toLowerCase());
-
-        assertNotNull(testSMS1);
 
         assertFalse(SMSChecker.isShortCodeMatch(testSMS5, referenceSMS));
         assertFalse(SMSChecker.isShortCodeMatch(testSMS6, referenceSMS));
@@ -60,6 +64,20 @@ public class TestSMSCheckerHW {
         assertFalse(SMSChecker.isShortCodeMatch(testSMS10, referenceSMS));
         assertFalse(SMSChecker.isShortCodeMatch(testSMS11, referenceSMS));
 
+        printBreak();
+
+        System.out.println("assertEquals tests");
+        //REFACTOR??
+        assertEquals("register", testSMS1.getShortCode().toLowerCase());
+        System.out.println(testSMS1.getShortCode() + " changed to lower case is considered equal to short code register.");
+        assertEquals("register", testSMS2.getShortCode().toLowerCase());
+        System.out.println(testSMS2.getShortCode() + " changed to lower case is considered equal to short code register.");
+        assertEquals("register", testSMS3.getShortCode().toLowerCase());
+        System.out.println(testSMS3.getShortCode() + " changed to lower case is considered equal to short code register.");
+        assertEquals("register", testSMS4.getShortCode().toLowerCase());
+        System.out.println(testSMS4.getShortCode() + " changed to lower case is considered equal to short code register.");
+
+        printBreak();
 
     }
 
@@ -88,8 +106,30 @@ public class TestSMSCheckerHW {
         // correct usage
         testSMS1.setMessage("Marco Valmores, 1973-09-10, Marikina City");
         testSMS17.setMessage("Marco A. Valmores, 1973-09-10, Marikina City");
+
+        assertTrue(SMSChecker.hasValidPersonalDetailsFormat(testSMS1));
+
+        assertNotNull(SMSChecker.personalDetailsSeparator(testSMS1.getMessage()));
+        System.out.println("Personal details NOT NULL");
+
+        assertTrue(SMSChecker.hasValidPersonalDetailsFormat(testSMS17));
+
+        assertNotNull(SMSChecker.personalDetailsSeparator(testSMS17.getMessage()));
+        System.out.println("Personal details NOT NULL");
+
+        System.out.println("\n Correct usage tests passed");
+        printBreak();
+
         // with unnecessary white spaces
         testSMS2.setMessage("  Marco Valmores  , 1973-09-10,   Marikina City  ");
+        assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS2));
+
+        assertNotNull(SMSChecker.personalDetailsSeparator(testSMS2.getMessage()));
+        System.out.println("Personal details NOT NULL");
+
+        System.out.println("\n Whitespace test passed");
+        printBreak();
+
         //missing spaces
         testSMS3.setMessage("MarcoValmores, 1973-09-10, Marikina City");
         testSMS10.setMessage("Marco Valmores,1973-09-10,Marikina");
@@ -114,8 +154,8 @@ public class TestSMSCheckerHW {
 
 
 
-        assertTrue(SMSChecker.hasValidPersonalDetailsFormat(testSMS1));
-        assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS2));
+
+
         assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS3));
         assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS4));
         assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS5));
@@ -130,7 +170,7 @@ public class TestSMSCheckerHW {
         assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS14));
         assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS15));
         assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS16));
-        assertTrue(SMSChecker.hasValidPersonalDetailsFormat(testSMS17));
+
 
 
     }
