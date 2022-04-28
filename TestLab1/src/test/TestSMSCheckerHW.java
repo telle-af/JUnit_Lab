@@ -123,18 +123,22 @@ public class TestSMSCheckerHW {
         SMS testSMS16 = new SMS();
         SMS testSMS17 = new SMS();
 
-        // correct usage
+        // correct usage #1
+        System.out.println("[ CORRECT USAGE - VARIANT 1 OF 2]");
         testSMS1.setMessage("Marco Valmores, 1973-09-10, Marikina City");
-        testSMS17.setMessage("Marco A. Valmores, 1973-09-10, Marikina City");
 
-        System.out.println("[ CORRECT USAGE VARIANT 1 ]");
+        // assertions
         assertTrue(SMSChecker.hasValidPersonalDetailsFormat(testSMS1));
         assertNotNull(SMSChecker.personalDetailsSeparator(testSMS1.getMessage()));
         System.out.println("Personal details NOT NULL");
 
         printBreak();
 
-        System.out.println("[ CORRECT USAGE VARIANT 2 ]");
+        // correct usage #2
+        System.out.println("[ CORRECT USAGE - VARIANT 2 OF 2]");
+        testSMS17.setMessage("Marco A. Valmores, 1973-09-10, Marikina City");
+
+        //assertions
         assertTrue(SMSChecker.hasValidPersonalDetailsFormat(testSMS17));
         assertNotNull(SMSChecker.personalDetailsSeparator(testSMS17.getMessage()));
         System.out.println("Personal details NOT NULL");
@@ -142,70 +146,133 @@ public class TestSMSCheckerHW {
         System.out.println("\n Correct usage tests passed");
         printBreak();
 
-        // with unnecessary white spaces
-        System.out.println("[ INCORRECT USAGE DUE TO WHITESPACES ]");
-        testSMS2.setMessage("  Marco Valmores  , 1973-09-10,   Marikina City  ");
-        assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS2));
 
+        // with unnecessary white spaces
+        System.out.println("[ INCORRECT USAGE DUE TO WHITESPACES - CASE 1 of 1 ]");
+        testSMS2.setMessage("  Marco Valmores  , 1973-09-10,   Marikina City  ");
+
+        // assertions
+        assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS2));
         assertNotNull(SMSChecker.personalDetailsSeparator(testSMS2.getMessage()));
         System.out.println("Personal details NOT NULL");
 
         System.out.println("\n Whitespace test passed");
         printBreak();
 
-        //missing spaces
-        System.out.println("[ INCORRECT USAGE DUE TO MISSING SPACES ]");
+        // missing space/s #1
+        System.out.println("[ INCORRECT USAGE DUE TO MISSING SPACES - CASE 1 OF 2 ]");
         testSMS3.setMessage("MarcoValmores, 1973-09-10, Marikina City");
-        testSMS10.setMessage("Marco Valmores,1973-09-10,Marikina");
+
+        // assertion
         assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS3));
+
+        // missing space/s #2
+        System.out.println("[ INCORRECT USAGE DUE TO MISSING SPACES - CASE 2 OF 2 ]");
+        testSMS10.setMessage("Marco Valmores,1973-09-10,Marikina");
+
+        // assertion
         assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS10));
+
+        System.out.println("\n Missing-spaces tests passed");
         printBreak();
 
-        // wrong name format
-        System.out.println("[ INCORRECT USAGE DUE TO WRONG NAME FORMAT ]");
+        // wrong name format #1
+        System.out.println("[ INCORRECT USAGE DUE TO WRONG NAME FORMAT - CASE 1 of 2 ]");
         testSMS4.setMessage("Valmores, Marco, 1973-09-10, Marikina");
-        testSMS8.setMessage("Marco, 1973-09-10, Marikina City");
+
+        // assertion
         assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS4));
+        
+
+        // wrong name format #2
+        System.out.println("[ INCORRECT USAGE DUE TO WRONG NAME FORMAT - CASE 2 of 2 ]");
+        testSMS8.setMessage("Marco, 1973-09-10, Marikina City");
+
+        // assertions
         assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS8));
+
+        System.out.println("\n Name format tests passed");
         printBreak();
 
-        // wrong address format
-        System.out.println("[ INCORRECT USAGE DUE TO WRONG ADDRESS FORMAT ]");
+        // wrong address format #1
+        System.out.println("[ INCORRECT USAGE DUE TO WRONG ADDRESS FORMAT - CASE 1 of 2 ]");
         testSMS5.setMessage("Marco Valmores, 1973-09-10, Marikina C");
-        testSMS6.setMessage("Marco Valmores, 1973-09-10, Marikina");
+
+        // assertion
         assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS5));
+
+        // wrong address format #2
+        System.out.println("[ INCORRECT USAGE DUE TO WRONG ADDRESS FORMAT - CASE 2 of 2 ]");
+        testSMS6.setMessage("Marco Valmores, 1973-09-10, Marikina");
+
+        // assertion
         assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS6));
+
+        System.out.println("\n Address format tests passed");
         printBreak();
 
         // wrong order of details
-        System.out.println("[ INCORRECT USAGE DUE TO WRONG ORDER OF DETAILS ]");
+        System.out.println("[ INCORRECT USAGE DUE TO WRONG ORDER OF DETAILS - CASE 1 of 1 ]");
         testSMS7.setMessage("Marco Valmores, Marikina, 1973-09-10");
         assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS7));
+
+        System.out.println("\n Detail order test passed");
         printBreak();
 
-        // invalid separator/s
-        System.out.println("[ INCORRECT USAGE DUE TO WRONG SEPARATORS ]");
+        // invalid separator #1
+        System.out.println("[ INCORRECT USAGE DUE TO WRONG SEPARATORS - CASE 1 of 2 ]");
         testSMS15.setMessage("Marco Valmores 1973-09-10 Marikina City");
+
+        // assertion
+        assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS15));
+
+        // invalid separator #2
+        System.out.println("[ INCORRECT USAGE DUE TO WRONG SEPARATORS - CASE 2 of 2 ]");
         testSMS16.setMessage("<Marco Valmores> <1973-09-10> <Marikina City>");
 
-        assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS15));
+        // assertion
         assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS16));
 
+        System.out.println("\n Separators tests passed");
         printBreak();
 
-        // wrong date format
-        System.out.println("[ INCORRECT USAGE DUE TO WRONG DATE FORMAT ]");
+        // wrong date format # 1
+        System.out.println("[ INCORRECT USAGE DUE TO WRONG DATE FORMAT - CASE 1 OF 5 ]");
         testSMS9.setMessage("Marco Valmores, 1973-19-10, Marikina City");
+
+        // assertion
+        assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS9));
+
+        // wrong date format # 2
+        System.out.println("[ INCORRECT USAGE DUE TO WRONG DATE FORMAT - CASE 2 OF 5 ]");
         testSMS11.setMessage("Marco Valmores, September 10 1973, Marikina City");
+
+        // assertion
+        assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS11));
+
+        // wrong date format # 3
+        System.out.println("[ INCORRECT USAGE DUE TO WRONG DATE FORMAT - CASE 3 OF 5 ]");
         testSMS12.setMessage("Marco Valmores, 1973/09/19, Marikina City");
+
+        // assertion
+        assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS12));
+
+        // wrong date format # 4
+        System.out.println("[ INCORRECT USAGE DUE TO WRONG DATE FORMAT - CASE 4 OF 5 ]");
         testSMS13.setMessage("Marco Valmores, 09-10-1973, Marikina City");
+
+        // assertion
+        assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS13));
+
+        // wrong date format # 5
+        System.out.println("[ INCORRECT USAGE DUE TO WRONG DATE FORMAT - CASE 5 OF 5 ]");
         testSMS14.setMessage("Marco Valmores, 09/10/1973, Marikina City");
 
-        assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS9));
-        assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS11));
-        assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS12));
-        assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS13));
+        // assertion
         assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS14));
+
+        System.out.println("\n Date format tests passed");
+        printBreak();
 
 
     }
