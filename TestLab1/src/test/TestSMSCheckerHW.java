@@ -54,6 +54,7 @@ public class TestSMSCheckerHW {
         testSMS10.setShortCode("regist3r");
         SMS testSMS11 = new SMS();
         testSMS11.setShortCode("REG");
+        SMS testSMS12 = new SMS();
 
 
         assertFalse(SMSChecker.isShortCodeMatch(testSMS5, referenceSMS));
@@ -76,6 +77,26 @@ public class TestSMSCheckerHW {
         System.out.println(testSMS3.getShortCode() + " changed to lower case is considered equal to short code register.");
         assertEquals("register", testSMS4.getShortCode().toLowerCase());
         System.out.println(testSMS4.getShortCode() + " changed to lower case is considered equal to short code register.");
+
+        printBreak();
+
+        System.out.println("assertNotNull tests");
+
+        assertNotNull(testSMS1);
+        System.out.println("SMS NOT NULL");
+        assertNotNull(testSMS2);
+        System.out.println("SMS NOT NULL");
+        assertNotNull(testSMS3);
+        System.out.println("SMS NOT NULL");
+        assertNotNull(testSMS4);
+        System.out.println("SMS NOT NULL");
+
+        printBreak();
+
+        System.out.println("assertNull tests");
+
+        assertNull(testSMS12.getShortCode());
+        System.out.println("SMS 12 has no ShortCode");
 
         printBreak();
 
