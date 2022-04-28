@@ -19,7 +19,7 @@ public class TestSMSCheckerHW {
         referenceSMS.setShortCode("register");
 
         // assert true
-        System.out.println("assertTrue tests\n");
+        System.out.println("[ assertTrue tests ]\n");
 
         SMS testSMS1 = new SMS();
         testSMS1.setShortCode("register");
@@ -38,7 +38,7 @@ public class TestSMSCheckerHW {
         printBreak();
 
         // assert false
-        System.out.println("assertFalse tests\n");
+        System.out.println("[ assertFalse tests ]\n");
 
         SMS testSMS5 = new SMS();
         testSMS5.setShortCode(" register");
@@ -67,33 +67,34 @@ public class TestSMSCheckerHW {
 
         printBreak();
 
-        System.out.println("assertEquals tests");
+        System.out.println("[ assertEquals tests ]");
         //REFACTOR??
+
         assertEquals("register", testSMS1.getShortCode().toLowerCase());
-        System.out.println(testSMS1.getShortCode() + " changed to lower case is considered equal to short code register.");
+        System.out.println(testSMS1.getShortCode() + " in lower case is considered equal to short code register.");
         assertEquals("register", testSMS2.getShortCode().toLowerCase());
-        System.out.println(testSMS2.getShortCode() + " changed to lower case is considered equal to short code register.");
+        System.out.println(testSMS2.getShortCode() + " in lower case is considered equal to short code register.");
         assertEquals("register", testSMS3.getShortCode().toLowerCase());
-        System.out.println(testSMS3.getShortCode() + " changed to lower case is considered equal to short code register.");
+        System.out.println(testSMS3.getShortCode() + " in lower case is considered equal to short code register.");
         assertEquals("register", testSMS4.getShortCode().toLowerCase());
-        System.out.println(testSMS4.getShortCode() + " changed to lower case is considered equal to short code register.");
+        System.out.println(testSMS4.getShortCode() + " in lower case is considered equal to short code register.");
 
         printBreak();
 
-        System.out.println("assertNotNull tests");
+        System.out.println("[ assertNotNull tests ]");
 
         assertNotNull(testSMS1);
-        System.out.println("SMS NOT NULL");
+        System.out.println("SMS 1 NOT NULL");
         assertNotNull(testSMS2);
-        System.out.println("SMS NOT NULL");
+        System.out.println("SMS 2 NOT NULL");
         assertNotNull(testSMS3);
-        System.out.println("SMS NOT NULL");
+        System.out.println("SMS 3 NOT NULL");
         assertNotNull(testSMS4);
-        System.out.println("SMS NOT NULL");
+        System.out.println("SMS 4 NOT NULL");
 
         printBreak();
 
-        System.out.println("assertNull tests");
+        System.out.println("[ assertNull tests ]");
 
         assertNull(testSMS12.getShortCode());
         System.out.println("SMS 12 has no ShortCode");
@@ -172,9 +173,11 @@ public class TestSMSCheckerHW {
 
         // assertion
         assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS10));
+        assertNull(SMSChecker.personalDetailsSeparator(testSMS10.getMessage()));
 
         System.out.println("\n Missing-spaces tests passed");
         printBreak();
+
 
         // wrong name format #1
         System.out.println("[ INCORRECT USAGE DUE TO WRONG NAME FORMAT - CASE 1 of 2 ]");
@@ -182,7 +185,7 @@ public class TestSMSCheckerHW {
 
         // assertion
         assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS4));
-        
+        assertNull(SMSChecker.personalDetailsSeparator(testSMS4.getMessage()));
 
         // wrong name format #2
         System.out.println("[ INCORRECT USAGE DUE TO WRONG NAME FORMAT - CASE 2 of 2 ]");
@@ -193,6 +196,7 @@ public class TestSMSCheckerHW {
 
         System.out.println("\n Name format tests passed");
         printBreak();
+
 
         // wrong address format #1
         System.out.println("[ INCORRECT USAGE DUE TO WRONG ADDRESS FORMAT - CASE 1 of 2 ]");
@@ -211,6 +215,7 @@ public class TestSMSCheckerHW {
         System.out.println("\n Address format tests passed");
         printBreak();
 
+
         // wrong order of details
         System.out.println("[ INCORRECT USAGE DUE TO WRONG ORDER OF DETAILS - CASE 1 of 1 ]");
         testSMS7.setMessage("Marco Valmores, Marikina, 1973-09-10");
@@ -218,6 +223,7 @@ public class TestSMSCheckerHW {
 
         System.out.println("\n Detail order test passed");
         printBreak();
+
 
         // invalid separator #1
         System.out.println("[ INCORRECT USAGE DUE TO WRONG SEPARATORS - CASE 1 of 2 ]");
@@ -236,12 +242,14 @@ public class TestSMSCheckerHW {
         System.out.println("\n Separators tests passed");
         printBreak();
 
+
         // wrong date format # 1
         System.out.println("[ INCORRECT USAGE DUE TO WRONG DATE FORMAT - CASE 1 OF 5 ]");
         testSMS9.setMessage("Marco Valmores, 1973-19-10, Marikina City");
 
         // assertion
         assertFalse(SMSChecker.hasValidPersonalDetailsFormat(testSMS9));
+        assertNotNull(SMSChecker.personalDetailsSeparator(testSMS9.getMessage()));
 
         // wrong date format # 2
         System.out.println("[ INCORRECT USAGE DUE TO WRONG DATE FORMAT - CASE 2 OF 5 ]");
